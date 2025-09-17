@@ -20,10 +20,10 @@ use App\Http\Controllers\Api\BankAccountController;
 */
 
 // Auth routes
-Route::prefix('auth')->middleware([\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class])->group(function () {
+Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
@@ -42,7 +42,7 @@ Route::prefix('public')->group(function () {
 });
 
 // Protected admin routes
-Route::middleware([\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     // Activities
     Route::apiResource('activities', ActivityController::class);
     Route::post('activities/{activity}/draw', [ActivityController::class, 'draw']);

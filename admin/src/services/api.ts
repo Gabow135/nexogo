@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+const API_BASE_URL = 'https://api.nexogo.org/api';
 
 class ApiError extends Error {
   constructor(
@@ -30,7 +30,7 @@ class ApiService {
 
   private async request(endpoint: string, options: RequestInit = {}): Promise<any> {
     const url = `${API_BASE_URL}${endpoint}`;
-    
+
     const defaultHeaders: Record<string, string> = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -75,11 +75,11 @@ class ApiService {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     });
-    
+
     if (data.token) {
       this.setToken(data.token);
     }
-    
+
     return data;
   }
 

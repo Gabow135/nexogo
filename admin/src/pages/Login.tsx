@@ -141,7 +141,7 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          {/* Demo Credentials */}
+          {/* Demo Credentials - HIDDEN FOR PRODUCTION
           <div className="demo-section">
             <div className="demo-header">
               <span className="demo-title">🚀 Credenciales de Demostración</span>
@@ -167,6 +167,7 @@ const Login: React.FC = () => {
               </button>
             </div>
           </div>
+          */}
 
           {/* Footer */}
           <div className="login-footer">
