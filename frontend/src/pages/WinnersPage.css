@@ -1,0 +1,402 @@
+.winners-page {
+  padding: 2rem 0;
+  min-height: 70vh;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header .page-subtitle {
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.loading-state h2 {
+  color: #666;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.empty-state p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.winners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.winner-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.winner-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
+}
+
+.winner-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.winner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.winner-card:hover .winner-image img {
+  transform: scale(1.05);
+}
+
+.activity-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 123, 255, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  backdrop-filter: blur(10px);
+}
+
+.winner-celebration {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.celebration-emoji {
+  font-size: 1.5rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.winner-content {
+  padding: 1.5rem;
+}
+
+.prize-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.winning-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.winning-number {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border-radius: 12px;
+  border: 2px solid #e6c200;
+}
+
+.number-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8b6914;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.number-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #333;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+.lucky-numbers {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.lucky-numbers-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lucky-numbers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.lucky-number {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background: #e9ecef;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #495057;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.lucky-number.main-winner {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  border-color: #e6c200;
+  font-weight: 800;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.winner-details {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.winner-name,
+.winner-date {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.winner-label,
+.date-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.winner-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.date-value {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.winners-footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+}
+
+.social-reminder h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.social-reminder p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .winners-page {
+    padding: 1rem 0;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .winners-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .winner-card {
+    margin: 0 1rem;
+  }
+
+  .winner-details {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .winners-footer {
+    margin: 2rem 1rem 0;
+    padding: 1.5rem 1rem;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .social-link {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 480px) {
+  .winners-grid {
+    margin: 0;
+  }
+
+  .winner-card {
+    margin: 0 0.5rem;
+    border-radius: 16px;
+  }
+
+  .winner-content {
+    padding: 1rem;
+  }
+
+  .prize-name {
+    font-size: 1.1rem;
+  }
+
+  .number-value {
+    font-size: 1.5rem;
+  }
+
+  .empty-state {
+    margin: 1rem;
+    padding: 2rem 1rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+  }
+}
