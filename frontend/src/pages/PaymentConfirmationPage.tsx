@@ -5,38 +5,7 @@ import { ordersService, bankAccountsService } from '../services/api';
 import './PaymentConfirmationPage.css';
 
 // Mock data for testing
-const mockCuentas: CuentaBancaria[] = [
-  {
-    id: 1,
-    banco: 'Banco Pichincha',
-    tipo_cuenta: 'corriente',
-    numero_cuenta: '2100335322',
-    titular: 'Corporación Flores',
-    cedula_ruc: '1793227012001',
-    email_contacto: 'info@proyectosflores.com',
-    activa: true,
-  },
-  {
-    id: 2,
-    banco: 'Banco Guayaquil',
-    tipo_cuenta: 'ahorros',
-    numero_cuenta: '0016481470',
-    titular: 'Adrián Flores',
-    cedula_ruc: '0105071146',
-    email_contacto: 'info@proyectosflores.com',
-    activa: true,
-  },
-  {
-    id: 3,
-    banco: 'Jardín Azuayo',
-    tipo_cuenta: 'ahorros',
-    numero_cuenta: '2821454',
-    titular: 'Corporación Flores',
-    cedula_ruc: '1793227012001',
-    email_contacto: 'info@proyectosflores.com',
-    activa: true,
-  },
-];
+const mockCuentas: CuentaBancaria[] = [];
 
 const mockOrden: Orden = {
   id: 1,

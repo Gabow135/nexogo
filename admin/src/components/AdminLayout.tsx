@@ -75,10 +75,6 @@ const AdminLayout: React.FC = () => {
           </button>
 
           <div className="header-actions">
-            <button className="header-btn">
-              <span>🔔</span>
-              <span className="notification-badge">3</span>
-            </button>
             <div className="admin-user">
               <span className="user-avatar">👨‍💼</span>
               <span className="user-name">{user?.username || 'Admin'}</span>

@@ -8,6 +8,7 @@ import PurchasePage from './pages/PurchasePage';
 import PaymentConfirmationPage from './pages/PaymentConfirmationPage';
 import ConsultationPage from './pages/ConsultationPage';
 import WinnersPage from './pages/WinnersPage';
+import TermsPage from './pages/TermsPage';
 
 // Admin
 import AdminLayout from './admin/components/AdminLayout';
@@ -48,6 +49,7 @@ function App() {
                   <Route path="/pago-confirmacion/:orderNumber" element={<PaymentConfirmationPage />} />
                   <Route path="/consultar" element={<ConsultationPage />} />
                   <Route path="/ganadores" element={<WinnersPage />} />
+                  <Route path="/terminos" element={<TermsPage />} />
                 </Routes>
               </main>
               <Footer />

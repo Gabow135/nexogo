@@ -1,7 +1,7 @@
 .whatsapp-float {
   position: fixed;
   bottom: 25px;
-  left: 25px;
+  right: 25px;
   z-index: 1000;
 }
 
@@ -73,7 +73,7 @@
 @media (max-width: 768px) {
   .whatsapp-float {
     bottom: 20px;
-    left: 20px;
+    right: 20px;
   }
   
   .whatsapp-button {
@@ -90,7 +90,7 @@
 @media (max-width: 480px) {
   .whatsapp-float {
     bottom: 15px;
-    left: 15px;
+    right: 15px;
   }
   
   .whatsapp-button {

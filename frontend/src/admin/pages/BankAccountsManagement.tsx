@@ -268,7 +268,7 @@ const BankAccountsManagement: React.FC = () => {
                     value={formData.numero_cuenta}
                     onChange={handleInputChange}
                     required
-                    placeholder="Ej: 2100335322"
+                    placeholder="Ej: 2212564018"
                   />
                 </div>
                 <div className="form-group">
@@ -279,7 +279,7 @@ const BankAccountsManagement: React.FC = () => {
                     value={formData.titular}
                     onChange={handleInputChange}
                     required
-                    placeholder="Ej: Corporación Flores"
+                    placeholder="Ej: Dtiware SAS"
                   />
                 </div>
               </div>
@@ -293,7 +293,7 @@ const BankAccountsManagement: React.FC = () => {
                     value={formData.cedula_ruc}
                     onChange={handleInputChange}
                     required
-                    placeholder="Ej: 1793227012001"
+                    placeholder="Ej: 1891812025001"
                   />
                 </div>
                 <div className="form-group">

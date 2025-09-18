@@ -76,12 +76,25 @@ case $opcion in
         echo ""
         log "📤 Actualizando Backend API..."
 
-        # Subir Backend
-        rsync -av --progress --no-times \
+        # Configurar permisos ANTES del rsync
+        echo ""
+        log "🔧 Configurando permisos previos..."
+        ssh $SERVIDOR "
+            cd $BASE_PATH/api.nexogo.org
+            sudo chown -R dtiadmin:dtiadmin .
+            sudo chmod -R 755 .
+        "
+
+        # Subir Backend con forzado de actualización
+        rsync -av --progress --no-times --delete-after \
             --exclude='vendor/' \
             --exclude='.env' \
             --exclude='node_modules/' \
             --exclude='storage/logs/*.log' \
+            --exclude='storage/app/' \
+            --exclude='storage/framework/cache/' \
+            --exclude='storage/framework/sessions/' \
+            --exclude='storage/framework/views/' \
             --exclude='.git/' \
             backend/ $SERVIDOR:$BASE_PATH/api.nexogo.org/
 
@@ -91,17 +104,53 @@ case $opcion in
         ssh $SERVIDOR "
             cd $BASE_PATH/api.nexogo.org
 
-            # Limpiar cache
+            # Instalar dependencias
+            echo 'Instalando dependencias...'
+            composer install --no-dev --optimize-autoloader
+
+            # Limpiar todos los caches
             php artisan config:clear
             php artisan cache:clear
             php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+
+            # Verificar que el archivo fue actualizado
+            echo 'Verificando PaymentConfirmationMail.php...'
+            if grep -q 'is_array' app/Mail/PaymentConfirmationMail.php; then
+                echo '✅ PaymentConfirmationMail.php actualizado correctamente'
+            else
+                echo '❌ PaymentConfirmationMail.php NO fue actualizado'
+            fi
 
             # Recrear cache
             php artisan config:cache
             php artisan route:cache
 
-            # Verificar permisos
-            sudo chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo 'Permisos ya configurados'
+            # Arreglar permisos completos
+            echo 'Configurando permisos del servidor...'
+            sudo chown -R www-data:www-data .
+            sudo find . -type d -exec chmod 755 {} \;
+            sudo find . -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
+
+            # Arreglar base de datos si existe
+            if [ -f 'database/database.sqlite' ]; then
+                sudo chmod 664 database/database.sqlite
+                sudo chown www-data:www-data database/database.sqlite
+            fi
+            if [ -f 'storage/database.sqlite' ]; then
+                sudo chmod 664 storage/database.sqlite
+                sudo chown www-data:www-data storage/database.sqlite
+            fi
+
+            # Limpiar archivos de cache problemáticos
+            sudo rm -f bootstrap/cache/config.php bootstrap/cache/routes-v7.php
+
+            # Reiniciar Apache
+            echo 'Reiniciando Apache...'
+            sudo systemctl restart apache2
         "
 
         log "Backend API actualizado!"
@@ -123,14 +172,27 @@ case $opcion in
         log "Subiendo Admin Panel..."
         rsync -av --progress --no-times admin/build/ $SERVIDOR:$BASE_PATH/admin.nexogo.org/
 
+        # Configurar permisos ANTES del rsync
+        echo ""
+        log "🔧 Configurando permisos previos..."
+        ssh $SERVIDOR "
+            cd $BASE_PATH/api.nexogo.org
+            sudo chown -R dtiadmin:dtiadmin .
+            sudo chmod -R 755 .
+        "
+
         # Subir Backend
         echo ""
         log "Subiendo Backend API..."
-        rsync -av --progress --no-times \
+        rsync -av --progress --no-times --delete-after \
             --exclude='vendor/' \
             --exclude='.env' \
             --exclude='node_modules/' \
             --exclude='storage/logs/*.log' \
+            --exclude='storage/app/' \
+            --exclude='storage/framework/cache/' \
+            --exclude='storage/framework/sessions/' \
+            --exclude='storage/framework/views/' \
             --exclude='.git/' \
             backend/ $SERVIDOR:$BASE_PATH/api.nexogo.org/
 
@@ -140,17 +202,53 @@ case $opcion in
         ssh $SERVIDOR "
             cd $BASE_PATH/api.nexogo.org
 
-            # Limpiar cache
+            # Instalar dependencias
+            echo 'Instalando dependencias...'
+            composer install --no-dev --optimize-autoloader
+
+            # Limpiar todos los caches
             php artisan config:clear
             php artisan cache:clear
             php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+
+            # Verificar que el archivo fue actualizado
+            echo 'Verificando PaymentConfirmationMail.php...'
+            if grep -q 'is_array' app/Mail/PaymentConfirmationMail.php; then
+                echo '✅ PaymentConfirmationMail.php actualizado correctamente'
+            else
+                echo '❌ PaymentConfirmationMail.php NO fue actualizado'
+            fi
 
             # Recrear cache
             php artisan config:cache
             php artisan route:cache
 
-            # Verificar permisos
-            sudo chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo 'Permisos ya configurados'
+            # Arreglar permisos completos
+            echo 'Configurando permisos del servidor...'
+            sudo chown -R www-data:www-data .
+            sudo find . -type d -exec chmod 755 {} \;
+            sudo find . -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
+
+            # Arreglar base de datos si existe
+            if [ -f 'database/database.sqlite' ]; then
+                sudo chmod 664 database/database.sqlite
+                sudo chown www-data:www-data database/database.sqlite
+            fi
+            if [ -f 'storage/database.sqlite' ]; then
+                sudo chmod 664 storage/database.sqlite
+                sudo chown www-data:www-data storage/database.sqlite
+            fi
+
+            # Limpiar archivos de cache problemáticos
+            sudo rm -f bootstrap/cache/config.php bootstrap/cache/routes-v7.php
+
+            # Reiniciar Apache
+            echo 'Reiniciando Apache...'
+            sudo systemctl restart apache2
         "
 
         log "Admin Panel y Backend API actualizados!"
@@ -181,13 +279,26 @@ case $opcion in
         log "Subiendo Admin Panel..."
         rsync -av --progress --no-times admin/build/ $SERVIDOR:$BASE_PATH/admin.nexogo.org/
 
+        # Configurar permisos ANTES del rsync
+        echo ""
+        log "🔧 Configurando permisos previos..."
+        ssh $SERVIDOR "
+            cd $BASE_PATH/api.nexogo.org
+            sudo chown -R dtiadmin:dtiadmin .
+            sudo chmod -R 755 .
+        "
+
         echo ""
         log "Subiendo Backend API..."
-        rsync -av --progress --no-times \
+        rsync -av --progress --no-times --delete-after \
             --exclude='vendor/' \
             --exclude='.env' \
             --exclude='node_modules/' \
             --exclude='storage/logs/*.log' \
+            --exclude='storage/app/' \
+            --exclude='storage/framework/cache/' \
+            --exclude='storage/framework/sessions/' \
+            --exclude='storage/framework/views/' \
             --exclude='.git/' \
             backend/ $SERVIDOR:$BASE_PATH/api.nexogo.org/
 
@@ -197,17 +308,53 @@ case $opcion in
         ssh $SERVIDOR "
             cd $BASE_PATH/api.nexogo.org
 
-            # Limpiar cache
+            # Instalar dependencias
+            echo 'Instalando dependencias...'
+            composer install --no-dev --optimize-autoloader
+
+            # Limpiar todos los caches
             php artisan config:clear
             php artisan cache:clear
             php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear
+
+            # Verificar que el archivo fue actualizado
+            echo 'Verificando PaymentConfirmationMail.php...'
+            if grep -q 'is_array' app/Mail/PaymentConfirmationMail.php; then
+                echo '✅ PaymentConfirmationMail.php actualizado correctamente'
+            else
+                echo '❌ PaymentConfirmationMail.php NO fue actualizado'
+            fi
 
             # Recrear cache
             php artisan config:cache
             php artisan route:cache
 
-            # Verificar permisos
-            sudo chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || echo 'Permisos ya configurados'
+            # Arreglar permisos completos
+            echo 'Configurando permisos del servidor...'
+            sudo chown -R www-data:www-data .
+            sudo find . -type d -exec chmod 755 {} \;
+            sudo find . -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 storage
+            sudo chmod -R 775 bootstrap/cache
+
+            # Arreglar base de datos si existe
+            if [ -f 'database/database.sqlite' ]; then
+                sudo chmod 664 database/database.sqlite
+                sudo chown www-data:www-data database/database.sqlite
+            fi
+            if [ -f 'storage/database.sqlite' ]; then
+                sudo chmod 664 storage/database.sqlite
+                sudo chown www-data:www-data storage/database.sqlite
+            fi
+
+            # Limpiar archivos de cache problemáticos
+            sudo rm -f bootstrap/cache/config.php bootstrap/cache/routes-v7.php
+
+            # Reiniciar Apache
+            echo 'Reiniciando Apache...'
+            sudo systemctl restart apache2
         "
 
         log "Todos los componentes actualizados!"

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Activity;
+use App\Mail\PaymentConfirmationMail;
+use App\Mail\PaymentInstructionsMail;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -79,6 +82,21 @@ class OrderController extends Controller
             'fecha_limite_pago' => now()->addHour(), // 1 hora para pagar
         ]);
 
+        // Enviar correo con instrucciones de pago
+        try {
+            Mail::to($order->email_cliente)->send(new PaymentInstructionsMail($order));
+            \Log::info("Correo de instrucciones de pago enviado", [
+                'order_id' => $order->id,
+                'email' => $order->email_cliente
+            ]);
+        } catch (\Exception $e) {
+            \Log::error("Error enviando correo de instrucciones de pago", [
+                'order_id' => $order->id,
+                'email' => $order->email_cliente,
+                'error' => $e->getMessage()
+            ]);
+        }
+
         return response()->json([
             'message' => 'Orden creada exitosamente',
             'order' => $order->load('activity')
@@ -131,6 +149,21 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                     'winning_numbers' => $winningNumbers,
                     'cliente' => $order->nombre_cliente
+                ]);
+            }
+
+            // Enviar correo de confirmación de pago
+            try {
+                Mail::to($order->email_cliente)->send(new PaymentConfirmationMail($order));
+                \Log::info("Correo de confirmación enviado", [
+                    'order_id' => $order->id,
+                    'email' => $order->email_cliente
+                ]);
+            } catch (\Exception $e) {
+                \Log::error("Error enviando correo de confirmación", [
+                    'order_id' => $order->id,
+                    'email' => $order->email_cliente,
+                    'error' => $e->getMessage()
                 ]);
             }
             
