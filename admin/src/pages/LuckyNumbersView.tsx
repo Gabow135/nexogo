@@ -32,6 +32,9 @@ interface Activity {
   actividad_numero: string;
   cantidad_numeros_suerte: number;
   numeros_premiados: string[];
+  total_boletos: number;
+  boletos_vendidos: number;
+  porcentaje_vendido: number;
 }
 
 interface LuckyNumbersData {
@@ -139,14 +142,16 @@ const LuckyNumbersView: React.FC = () => {
       <div className="activity-info-card">
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px'}}>
           <h3>Información de la Actividad</h3>
-          <button 
-            className="btn btn-success"
-            onClick={executeAutomaticRaffle}
-            disabled={executingRaffle}
-            style={{minWidth: '200px'}}
-          >
-            {executingRaffle ? '🔄 Ejecutando...' : '🎲 Ejecutar Sorteo Automático'}
-          </button>
+          {data.activity.porcentaje_vendido >= 100 && (
+            <button
+              className="btn btn-success"
+              onClick={executeAutomaticRaffle}
+              disabled={executingRaffle}
+              style={{minWidth: '200px'}}
+            >
+              {executingRaffle ? '🔄 Ejecutando...' : '🎲 Ejecutar Sorteo Automático'}
+            </button>
+          )}
         </div>
         
         {raffleResult && (
@@ -175,6 +180,34 @@ const LuckyNumbersView: React.FC = () => {
             <label>Números de Suerte:</label>
             <span>{data.activity.cantidad_numeros_suerte}</span>
           </div>
+          <div className="info-item">
+            <label>Boletos Vendidos:</label>
+            <span>{data.activity.boletos_vendidos} / {data.activity.total_boletos}</span>
+          </div>
+          <div className="info-item">
+            <label>Porcentaje Vendido:</label>
+            <span style={{
+              color: data.activity.porcentaje_vendido >= 100 ? '#4caf50' : '#ff9800',
+              fontWeight: 'bold'
+            }}>
+              {data.activity.porcentaje_vendido.toFixed(1)}%
+              {data.activity.porcentaje_vendido >= 100 && ' ✅'}
+            </span>
+          </div>
+          {data.activity.porcentaje_vendido < 100 && (
+            <div className="info-item" style={{gridColumn: '1 / -1'}}>
+              <div style={{
+                background: '#fff3cd',
+                border: '1px solid #ffc107',
+                borderRadius: '8px',
+                padding: '10px',
+                color: '#856404',
+                fontSize: '14px'
+              }}>
+                ⚠️ El sorteo automático solo estará disponible cuando se vendan todos los boletos (100%)
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
