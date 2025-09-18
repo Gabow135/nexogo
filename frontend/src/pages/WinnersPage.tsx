@@ -80,7 +80,7 @@ const WinnersPage: React.FC = () => {
                   loading="lazy"
                 />
                 <div className="activity-badge">
-                  {winner.activity_number}
+                  # {winner.activity_number}
                 </div>
               </div>
               

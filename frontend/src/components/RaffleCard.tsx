@@ -95,7 +95,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({ rifa }) => {
       <div className="raffle-image">
         <img src={rifa.imagen_url} alt={rifa.nombre} />
         <div className="activity-badge">
-          {rifa.actividad_numero}
+          # {rifa.actividad_numero}
         </div>
         
       </div>

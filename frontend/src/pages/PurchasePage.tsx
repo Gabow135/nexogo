@@ -203,7 +203,7 @@ const PurchasePage: React.FC = () => {
           <div className="product-card card">
             <div className="product-image">
               <img src={rifa.imagen_url} alt={rifa.nombre} />
-              <div className="activity-badge">{rifa.actividad_numero}</div>
+              <div className="activity-badge"># {rifa.actividad_numero}</div>
             </div>
             
             <div className="product-info">
